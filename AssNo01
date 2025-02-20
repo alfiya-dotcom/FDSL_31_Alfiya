@@ -1,136 +1,127 @@
-
 #include <stdio.h>
 #include <string.h>
 
-struct student
-{
-   int roll_no;
-   char name[20];
-   
+struct student {
+    int rollno;
+    char name[10];
 };
- 
- 
 
- int main()
- {
- 
- struct student b[3];
- int i,size,choice,update,number,r,position,found;
- char newname,ch;
- 
- do
- {
-    printf(" \n MENU");
-    printf("\n 1.Enter students record");
-    printf("\n 2.Display students record");
-    printf("\n 3.Insert students record");
-    printf("\n 4.Update students record");
-    printf("\n 5.Delete students record");
-    printf("\n 6.Exit\n");
-    printf("\n Enter your choice:");
-    scanf("%d",&choice);
-   
-    
- switch(choice)
- {
-   case 1: 
-           printf("Enter total no of students:");
-           scanf("%d",&size);
-           
-           printf("\n Enter students record\n");
-           for(i=0;i<size;i++)
-           {
-              printf("\n Enter roll no:");
-              scanf("%d",&b[i].roll_no);
-              printf("\n Enter name:");
-              scanf("%s",&b[i].name);
-           }
-           break;
-           
-  case 2: printf("\n Students Information:");
-          for(i=0;i<size;i++)
-          {
-             printf("\n Roll no:%d\t Name:%s\n",b[i].roll_no,b[i].name); 
-          }
-          break;
-          
-  case 3: printf("\n Enter position to be inserted:",size);
-          scanf("%d",&position);
-          for(i=size;i>position;i--)
-          {
-             b[i]=b[i-1];
-          }        
-       
-          printf("\n Information inserted successfully!");
-          
-          printf("\n Enter new roll no:");
-          scanf("%d",&b[position].roll_no);
-          printf("\n Enter new name:");
-          scanf("%s",b[position].name);
-           break;
-   case 4:printf("\n Enter roll no to update:");
-          scanf("%d",& update);
-          if(b[i].roll_no==update);
-          {
-            found;
-          }
-          printf("\n Enter new roll no:");
-          scanf("%d", &number);
-          b[i].roll_no==number;
-          printf("\n Enter new name:");
-          scanf("%s", newname);
-          strcpy(b[i].name,newname);
-          
-          printf("\n Record updated successfully!");
-          break;
-          
-          printf("\n Updated students record:");
-          for(i=0;i<size;i++)
-          {
-             scanf("\n Roll no:%d\t Name:%s\n",b[i].roll_no,b[i].name); 
-          }
-   case 5:printf("\n Enter roll no to delete:");
-         scanf("%d",&r);
-          found=0;
-         for(i=0;i<size;i++)
-         {
-            if(b[i].roll_no==r)
-              {
-                 position=i;
-                 found=1;
-                 break;
-              }
-         }
-        if(found)
-        {
-        
-          for(i=position;i<size-1;i++)
-            { 
-               b[i]=b[i+1];
-             }
-              
-        }  
-        size--;
-        printf("\n Roll no deleted successfully!");
-        
-        printf("\n Updated students record:");
-        for(i=0;i<size;i++)
-          {
-             scanf("\n Roll no:%d\t Name:%s\n",b[i].roll_no,b[i].name); 
-          }
-        break;
- 
-  case 6:printf("\n Wrong choice");
-         break;
-         
-  }     
- 
- printf("\n Do you want to continue(Y/N):");
- scanf("%s",&ch);
-    
-   }while(ch=='y'||ch=='Y');
+int main() {
+    struct student b[3];
+    int choice, r, n, size = 0, position, found, j, i;
+    char ch;
 
-return 0;
+    do {
+        printf("\n MENU \n");
+        printf("\n 1. Enter students record ");
+        printf("\n 2. Display students record ");
+        printf("\n 3. Update students record ");
+        printf("\n 4. Delete students record ");
+        printf("\n 5. Insert students record ");
+        printf("\n 6. Exit ");
+
+        printf("\n Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("\n Enter total no of students: ");
+                scanf("%d", &size);
+                printf("Enter students record:");
+                for (i = 0; i < size; i++) {
+                    printf("\n Enter roll no: ");
+                    scanf("%d", &b[i].rollno);
+                    printf("\n Enter name: ");
+                    scanf("%s", b[i].name);
+                }
+                break;
+
+            case 2:
+                printf("\n Students information:");
+                for (i = 0; i < size; i++) {
+                    printf("\n Roll no: %d \t Name: %s \n", b[i].rollno, b[i].name);
+                }
+                break;
+
+            case 3:
+                printf("\n Enter roll no whose information you want to update: ");
+                scanf("%d", &n);
+                found = 0;
+                for (i = 0; i < size; i++) {
+                    if (b[i].rollno == n) {
+                        found = 1;
+                        printf("\n Enter new roll no: ");
+                        scanf("%d", &b[i].rollno);
+                        printf("\n Enter new name: ");
+                        scanf("%s", b[i].name);
+                        printf("\n Record updated successfully!");
+                        break;
+                    }
+                }
+                if (!found) {
+                    printf("\n Roll no not found!");
+                }
+                break;
+
+            case 4:
+                printf("\n Enter roll no to be deleted: ");
+                scanf("%d", &r);
+                found = 0;
+                for (i = 0; i < size; i++) {
+                    if (b[i].rollno == r) {
+                        found = 1;
+                        for (j = i; j < size - 1; j++) {
+                            b[j] = b[j + 1];
+                        }
+                        size--;
+                        printf("\n Record deleted successfully!");
+                        break;
+                    }
+                }
+                if (!found) {
+                    printf("\n Roll no not found!");
+                } else {
+                    printf("\n Updated students record:");
+                    for (i = 0; i < size; i++) {
+                        printf("\n %d \t %s", b[i].rollno, b[i].name);
+                    }
+                }
+                break;
+
+            case 5:
+                printf("\n Enter a position where you want to insert a record: ");
+                scanf("%d", &position);
+                if (position > size + 1 || position < 1) {
+                    printf("\n Invalid position!!");
+                } else {
+                    for (i = size; i >= position; i--) {
+                        b[i] = b[i - 1];
+                    }
+                    printf("\n Enter new roll no: ");
+                    scanf("%d", &b[position - 1].rollno);
+                    printf("\n Enter new name: ");
+                    scanf("%s", b[position - 1].name);
+                    size++;
+                    printf("\n Record inserted successfully!!");
+                }
+                printf("\n Updated students record:");
+                for (i = 0; i < size; i++) {
+                    printf("\n Roll no: %d \t Name: %s", b[i].rollno, b[i].name);
+                }
+                break;
+
+            case 6:
+                printf("Exit\n");
+                return 0;
+
+            default:
+                printf("Invalid choice \n");
+        }
+
+        printf("\n Do you want to continue (Y/N): ");
+        scanf(" %c", &ch);
+
+    } while (ch == 'y' || ch == 'Y');
+
+    return 0;
 }
-
-
