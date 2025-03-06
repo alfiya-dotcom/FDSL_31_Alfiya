@@ -1,0 +1,42 @@
+#include<stdio.h>
+int main()
+{
+  int n,i,j,k,temp;
+  printf("Enter size of an array:");
+  scanf("%d",&n);
+  int a[n];
+  printf("Array elements are:");
+  for(i=0;i<n;i++)
+  {
+    scanf("%d",&a[i]);
+  }
+  
+  for(i=1;i<n;i++)
+  { 
+    temp=a[i];
+    for(j=0;j<i;j++)
+     { 
+       
+       if (a[j]>temp)
+         {
+           
+           for(k=i;k>j;k--)
+             {
+               a[k]=a[k-1];
+             }
+         
+             a[j]=temp;
+             break;
+         }
+      }
+   }
+   
+   printf("Sorted array elements are:");
+   for(i=0;i<n;i++)
+    {
+       printf(" %d",a[i]);
+    }  
+    
+ return 0;
+ 
+ }
