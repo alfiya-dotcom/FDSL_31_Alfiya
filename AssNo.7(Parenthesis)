@@ -1,0 +1,49 @@
+#include <stdio.h>
+#define MAX 100
+int main()
+{
+   char expr[MAX];
+   char stack[MAX];
+   int top=-1;
+   int i;
+   
+   printf("Enter an expression with parenthesis:");
+   fgets(expr,MAX,stdin);
+   
+   for (i=0;expr[i]!='\0';i++)
+   {
+      if (expr[i]=='(' )
+      {
+         if(top==MAX-1)
+         { 
+            printf("Stack Overflow\n");
+            return 1;
+         }
+         stack[++top]='(' ;
+      }
+      
+      else if(expr[i]==')')
+       {
+            if(top==-1)
+            {
+               printf("The expression is NOT well-formed\n");
+               
+            }
+            top--;
+       }
+      
+      
+      if (top==-1)
+      {
+         printf("\n The expression is well-formed");
+        
+      }
+      else
+      {
+         printf("\n The expression is NOT well-formed");
+         
+      }
+   } 
+      
+ return 0;
+}
