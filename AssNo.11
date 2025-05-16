@@ -1,0 +1,218 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int data;
+    struct node *prev;
+    struct node *next;
+};
+
+struct node *head = NULL, *tail = NULL, *temp, *newnode;
+
+void insertAtFirst() {
+    newnode = malloc(sizeof(struct node));
+    
+    printf("Enter data: ");
+    scanf("%d", &newnode->data);
+
+    newnode->prev = NULL;
+    newnode->next = head;
+
+    if (head != NULL)
+        head->prev = newnode;
+    else
+        tail = newnode; // first node is also the last
+
+    head = newnode;
+}
+
+void insertAtLast() {
+    newnode = malloc(sizeof(struct node));
+    
+    printf("Enter data: ");
+    scanf("%d", &newnode->data);
+
+    newnode->next = NULL;
+    newnode->prev = tail;
+
+    if (tail != NULL)
+        tail->next = newnode;
+    else
+        head = newnode;
+
+    tail = newnode;
+}
+
+void insertAtPosition() {
+    int pos, i = 1;
+    printf("Enter position: ");
+    scanf("%d", &pos);
+    printf("Enter data: ");
+    newnode = malloc(sizeof(struct node));
+    
+    scanf("%d", &newnode->data);
+
+    if (pos == 1) {
+        insertAtFirst();
+        return;
+    }
+
+    temp = head;
+    while (i < pos - 1 && temp != NULL) {
+        temp = temp->next;
+        i++;
+    }
+
+    if (temp == NULL) {
+        printf("Position out of range\n");
+        free(newnode);
+    } else {
+        newnode->next = temp->next;
+        newnode->prev = temp;
+        if (temp->next != NULL)
+            temp->next->prev = newnode;
+        else
+            tail = newnode;
+        temp->next = newnode;
+    }
+}
+
+void deleteAtFirst() {
+    if (head == NULL) {
+        printf("DLL is empty\n");
+        return;
+    }
+    temp = head;
+    head = head->next;
+    if (head != NULL)
+        head->prev = NULL;
+    else
+        tail = NULL;
+    free(temp);
+    printf("First node deleted\n");
+}
+
+void deleteAtLast() {
+    if (tail == NULL) {
+        printf("DLL is empty\n");
+        return;
+    }
+    temp = tail;
+    tail = tail->prev;
+    if (tail != NULL)
+        tail->next = NULL;
+    else
+        head = NULL;
+    free(temp);
+    printf("Last node deleted\n");
+}
+
+void deleteAtPosition() {
+    int pos, i = 1;
+    printf("Enter position to delete: ");
+    scanf("%d", &pos);
+
+    if (head == NULL) {
+        printf("DLL is empty\n");
+        return;
+    }
+
+    if (pos == 1) {
+        deleteAtFirst();
+        return;
+    }
+
+    temp = head;
+    while (i < pos && temp != NULL) {
+        temp = temp->next;
+        i++;
+    }
+
+    if (temp == NULL) {
+        printf("Position out of range\n");
+    } else {
+        if (temp->prev != NULL)
+            temp->prev->next = temp->next;
+        if (temp->next != NULL)
+            temp->next->prev = temp->prev;
+        if (temp == tail)
+            tail = temp->prev;
+        free(temp);
+        printf("Node deleted at position %d\n", pos);
+    }
+}
+
+void display() {
+    if (head == NULL) {
+        printf("DLL is empty\n");
+        return;
+    }
+    temp = head;
+    printf("Doubly Linked List: ");
+    while (temp != NULL) {
+        printf("%d <-> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+
+int countNodes() {
+    int count = 0;
+    temp = head;
+    while (temp != NULL) {
+        count++;
+        temp = temp->next;
+    }
+    return count;
+}
+
+void searchItem() {
+    int key, position = 1;
+    printf("Enter item to search: ");
+    scanf("%d", &key);
+    temp = head;
+    while (temp != NULL) {
+        if (temp->data == key) {
+            printf("Item %d found at position %d\n", key, position);
+            return;
+        }
+        position++;
+        temp = temp->next;
+    }
+    printf("Item %d not found\n", key);
+}
+
+int main() {
+    int choice;
+    do {
+        printf("\nDoubly Linked List Operations:\n");
+        printf("1. Insert at First\n");
+        printf("2. Insert at Last\n");
+        printf("3. Insert at Position\n");
+        printf("4. Delete at First\n");
+        printf("5. Delete at Last\n");
+        printf("6. Delete at Position\n");
+        printf("7. Display\n");
+        printf("8. Count Nodes\n");
+        printf("9. Search Item\n");
+        printf("10. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1: insertAtFirst(); break;
+            case 2: insertAtLast(); break;
+            case 3: insertAtPosition(); break;
+            case 4: deleteAtFirst(); break;
+            case 5: deleteAtLast(); break;
+            case 6: deleteAtPosition(); break;
+            case 7: display(); break;
+            case 8: printf("Total nodes: %d\n", countNodes()); break;
+            case 9: searchItem(); break;
+            case 10: printf("Exiting...\n"); break;
+            default: printf("Invalid choice\n");
+        }
+    } while (choice != 10);
+
+    return 0;
+}
